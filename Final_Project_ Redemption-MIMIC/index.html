@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <script>window.onerror = function(error, url, line) {parent.postMessage(["console", "❌ -- [ERROR] -- ❌ -- ⚠️ " + error], "*")};var cl = console.log;console.log = function () {var msg = [...arguments].join();parent.postMessage(["console", msg], "*");  }  </script><script src = "https://mimicproject.com/libs/soundjs.js">
+</script>
+ <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js">
+</script>
+ <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.min.js">
+</script>
+
+    <meta charset="utf-8" />
+
+</head>
+
+<body>
+    <script>
+        let font;
+
+        let pic;
+        let s = -2;
+
+        let t, x, y, a, X, Y;
+        let v = 0;
+
+        let txt = "Revolution Order Civilization Elegance Rich Desire Sin Barbarism Freedom Contradictory Resentment Fighter Loyalty Curse Heroism Love Friendship Conscience Lost Redemption";
+
+        let sound;
+
+        function preload() {
+            font = loadFont("KronaOne-Regular.ttf");
+
+            pic = loadImage("9.jpg");
+            sound = loadSound("1.wav");
+        }
+
+        function setup() {
+            createCanvas(900, 900, WEBGL);
+            textFont(font);
+            //    textAlign(RIGHT, BOTTOM);
+            textSize(5);
+            fill(255);
+            //    frameRate(20);
+        }
+
+        function mouseClicked() {
+
+
+            sound.play()
+            //    sound.speed(map(mouseX, 0, width, 0.1, 3));
+        }
+
+        function draw() {
+            background(0);
+
+
+            let speed = map(mouseY, 0.1, height, 0, 2);
+            speed = constrain(speed, 0.01, 4);
+            sound.rate(speed);
+
+
+
+            push();
+            let space = 10 + s;
+            //    translate(width / 2, height / 2);
+            scale(0.5);
+            translate(-width / 2, -height / 2);
+            for (let y = space; y < height + space; y += space * 2) {
+                let index = 0;
+                let x = 0;
+                while (x < width) {
+                    let c = pic.get(parseInt(x), parseInt(y));
+                    let bright = brightness(c);
+                    let txtSize = map(bright, 0, 255, space * 0.3, space * 3);
+                    let ch = txt[index];
+                    textSize(txtSize);
+                    let wd = textWidth(ch);
+                    push();
+                    translate(x - width / 2 - s * 10, y - height / 2 - s * 10, txtSize * 12);
+                    text(ch, x + cos(a = noise(X = x * .001, Y = y * .001, t) * TAU * 9),
+                        y + 80 + mouseY * sin(v + ((x + y) / map(mouseX, 0, width, 1, 100))), s);
+
+
+
+                    pop();
+                    index++;
+                    if (index == txt.length) index = 0;
+                    x += wd;
+                    v -= 0.02;
+                }
+            }
+            pop();
+        }
+
+   
+</script>
+</body>
+
+</html>
